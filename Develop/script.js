@@ -17,7 +17,7 @@ $(document).ready(function () {
   }
   todayIs();
 
-  var myCalendar = [
+  var defaultCalendar = [
     {
       time: 9,
       morning: true,
@@ -64,31 +64,32 @@ $(document).ready(function () {
       notes: "",
     },
   ];
- 
-    // if(storedCal){
-    //  storedCal.forEach(function(item){
-    //      // using id item.time for input value
-    //         $(`#${item.time}`).val(item.notes);
-        
-    //  })   
-    // }
 
   // WHEN I scroll down
   // THEN I am presented with timeblocks for standard business hours
   //create timeblocks with jquery
 
   function makeTimeBlocks() {
-    var cal
+    var cal;
+    //storedCal variable to pull from local and parse back into object
     var storedCal = JSON.parse(localStorage.getItem("myCalendar"));
-    if (storedCal){
-        cal = storedCal
+    //if cache is cleared, storedCal would be null, so return to defaultCalendar
+    if (!storedCal) {
+      storedCal = defaultCalendar;
     }
+    if (storedCal) {
+      cal = storedCal;
+    }
+    console.log("storedCal: " + storedCal);
+    console.log("cal: " + cal);
+    //compares each object in myCalendar array to determine AM/PM and set time block info
     cal.forEach(function (item, index) {
       var timeOfDay;
       var displayTime = item.time;
+      //edge case at noon
       if (!item.morning && item.time !== 12) {
         displayTime = item.time - 12;
-      } else if (item.time === 12) {
+      } else if (item.time == 12) {
         displayTime = item.time;
       }
       if (item.morning) {
@@ -97,28 +98,26 @@ $(document).ready(function () {
         timeOfDay = " PM";
       }
 
-      
-      var row = $(`<div id=${index} class="row" />`).appendTo(".container")
+      var row = $(`<div id=${index} class="row" />`).appendTo(".container");
 
-      //Create left time block 
+      //Create left time block
       var leftBlock = $("<div />", {
         text: displayTime + timeOfDay,
         // className: classUsed
       }).appendTo(row);
 
-
       // WHEN I click into a timeblock
       // THEN I can enter an event
-      //Create middle input block
+      //Create middle input block and connect to object.notes
       var middleBlock = $(`<input />`, {
         id: item.time,
         text: item.notes,
         class: setTimeColor(item),
       }).appendTo(row);
-      $(`#${item.time}`).attr('value', item.notes);
+      $(`#${item.time}`).attr("value", item.notes);
 
       //Create right save block
-      var rightBlock = $("<button>Save</button>").appendTo(row);
+      var rightBlock = $("<button class='saveBtn' />").appendTo(row);
     });
   }
   makeTimeBlocks();
@@ -141,33 +140,24 @@ $(document).ready(function () {
     }
   }
 
-  
-
   // WHEN I click the save button for that timeblock
   // THEN the text for that event is saved in local storage
 
-  $( "button" ).on( "click", function() {
-      var myCalendar = JSON.parse(localStorage.getItem('myCalendar'))
-      var clickedIndex = $(this).closest('div').attr('id');
-      var row = myCalendar[clickedIndex];
-      var value = $(`#${row.time}`).val();
-      console.log(value);
-      myCalendar[clickedIndex].notes = value;
-      console.log(myCalendar);
-      localStorage.setItem('myCalendar', JSON.stringify(myCalendar));
-      
-   
-
+  $("button").on("click", function () {
+    var myCalendar = JSON.parse(localStorage.getItem("myCalendar"));
+    //if cache is cleared, myCalendar would be null, so return to default
+    if (!myCalendar) {
+      myCalendar = defaultCalendar;
+    }
+    //using (this) to access the clicked save button and its closest div
+    var clickedIndex = $(this).closest("div").attr("id");
+    var row = myCalendar[clickedIndex];
+    //specifying whole row after click
+    var value = $(`#${row.time}`).val();
+    console.log(value);
+    myCalendar[clickedIndex].notes = value;
+    console.log(myCalendar);
+    //storing input in specific lines to
+    localStorage.setItem("myCalendar", JSON.stringify(myCalendar));
   });
-
-//   window.localStorage.setItem(userName, userScore);
-//   scores.innerHTML = "";
-
-
-  //append text in timeblock to local storage
-
-  // WHEN I refresh the page
-  // THEN the saved events persist
-
-  //pull text from local storage on refresh
 });
