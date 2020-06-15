@@ -132,7 +132,7 @@ $(document).ready(function () {
       return "past";
     }
     //Set block to present
-    else if (item.time = now) {
+    else if (item.time == now) {
       return "present";
     }
     //Set block to future
@@ -147,11 +147,11 @@ $(document).ready(function () {
   // THEN the text for that event is saved in local storage
 
   $( "button" ).on( "click", function() {
+      var myCalendar = JSON.parse(localStorage.getItem('myCalendar'))
       var clickedIndex = $(this).closest('div').attr('id');
       var row = myCalendar[clickedIndex];
       var value = $(`#${row.time}`).val();
       console.log(value);
-     
       myCalendar[clickedIndex].notes = value;
       console.log(myCalendar);
       localStorage.setItem('myCalendar', JSON.stringify(myCalendar));
