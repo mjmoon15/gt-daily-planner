@@ -103,8 +103,8 @@ $(document).ready(function () {
       //Create left time block
       var leftBlock = $("<div />", {
         text: displayTime + timeOfDay,
-        // className: classUsed
       }).appendTo(row);
+      leftBlock.addClass("leftBlock");
 
       // WHEN I click into a timeblock
       // THEN I can enter an event
@@ -115,10 +115,13 @@ $(document).ready(function () {
         class: setTimeColor(item),
       }).appendTo(row);
       $(`#${item.time}`).attr("value", item.notes);
+      middleBlock.addClass("middleBlock");
 
       //Create right save block
-      var rightBlock = $("<button class='saveBtn' />").appendTo(row);
+      var rightBlock = $(`<button class='saveBtn'><i class="fas fa-save"></i></button>`).appendTo(row);
+      rightBlock.addClass("rightBlock")
     });
+
   }
   makeTimeBlocks();
 
