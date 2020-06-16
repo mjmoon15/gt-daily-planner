@@ -25,7 +25,9 @@ This daily planner accesses the Moment.js api to determine date and time. Input 
 
 ## Usage 
 
-When a user visits the page, they will see 9 rows 
+When a user visits the page, they will be presented with the current date and a table with nine rows. Each row displays a one-hour block of time starting at 9 am and running until 5 pm. Each row has an input section for the user to type in a note. The user can then click the save button on the right side of the row and their input will be saved to local storage. 
+
+![Daily Planner](Assets/screencapture-file-Users-markmooney-gt-homework-gt-daily-planner-Develop-index-html-2020-06-15-20_40_10.png "Daily planner screenshot")
 
 
 
