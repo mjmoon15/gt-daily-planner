@@ -22,6 +22,8 @@ This daily planner accesses the Moment.js api to determine date and time. Input 
 
 [Clone the github repo here](https://github.com/mjmoon15/gt-daily-planner) and then run index.html.
 
+[The index can be accessed directly here.](https://mjmoon15.github.io/gt-daily-planner/)
+
 
 ## Usage 
 
